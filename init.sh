@@ -4,6 +4,22 @@
 # sed: for each script line, remove heading and trailing quote (").
 # xargs: execute each line of the script.
 
+add_header(key, value) {
+    echo "Adding header $key:$value"
+    echo "add_header $key $value;" >> $NGINX_CONF
+}
+
+# Configures nginx to add custom response headers
+add_headers() {
+  echo "Custom headers detected"
+  cat $HEADERS_FILE \
+   | jq 'to_entries | .[] | "add_header .key .value" '
+}
+
+if [ -f "$HEADERS_FILE"]
+  add_headers
+fi
+
 #cat $SRC_FILE \
 #  | jq 'to_entries | .[] | @sh "mkdir -p $DATA_DIR\(.key) && cat $SRC_FILE | jq '"'"'.[______\(.key)______]'"'"' > $DATA_DIR\(.key)\/$DST_FILENAME"' \
 #  | sed -e 's/______/\"/g' \

@@ -15,5 +15,7 @@ ENV DATA_DIR /data
 ENV SRC_FILE /data.json
 ENV DST_FILENAME index.json
 ENV ENDPOINTS_FILE /endpoints
+ENV HEADERS_FILE /headers.json
+ENV NGINX_CONF /etc/nginx/conf.d/default.conf
 
 CMD /bin/sh -c "/init.sh && nginx -g 'daemon off;'"
